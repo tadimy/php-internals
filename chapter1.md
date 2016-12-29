@@ -23,4 +23,3 @@ Nginx + PHP-FPM 已经是当前互联网公司最流行的运行 PHP 网站的�
 
 而 Nginx Worker 进程 和 PHP-FPM 管理的 PHPCGI 进程之间的通信方式可以是 unix domain socket，也可以是 ip:port 样式的 tcp socket
 
-
