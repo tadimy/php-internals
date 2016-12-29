@@ -21,5 +21,5 @@ Nginx + PHP-FPM 已经是当前互联网公司最流行的运行 PHP 网站的�
 * Nginx 作为 Web 服务器，决定将请求分发给谁处理
 * PHP-FPM 维护 PHPCGI 进程池，处理请求的具体业务，并将结果输出给 Nginx
 
-而 Nginx Worker 进程 和 PHP-FPM 管理的 PHPCGI 进程之间的通信方式可以是 unix domain socket，也可以是 ip:port 样式的 tcp socket
+而 Nginx Worker 进程 和 PHP-FPM 管理的 PHPCGI 进程之间的通信方式可以是 unix domain socket，也可以是 ip:port 样式的 tcp socket.
 
