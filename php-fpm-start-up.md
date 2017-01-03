@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 可以看到它的默认值是 500，按照文档中所描述的，如果处理的请求数达到 500 之后，会触发改进程的 “重生”，后面我们会介绍这个过程。
 
-继续往下看
+继续往下看：
 
 ```c
 ...
@@ -52,5 +52,41 @@ cgi_sapi_module.php_ini_ignore_cwd = 1;
 ...
 ```
 
+这一段主要是初始化 sapi 的代码，调用 sapi\__startup 函数，传入 &cgi\_sapi\_module。因为 fpm 实际上是一个 sapi 的 module, 而 sapi 的 module 是被定义好的一个数据结构，cgi\_sapi\_module 的初始化可以在 fpm\_main.c 中找到：_
 
+```c
+static sapi_module_struct cgi_sapi_module = {
+	"fpm-fcgi",						/* name */
+	"FPM/FastCGI",					/* pretty name */
 
+	php_cgi_startup,				/* startup */
+	php_module_shutdown_wrapper,	/* shutdown */
+
+	sapi_cgi_activate,				/* activate */
+	sapi_cgi_deactivate,			/* deactivate */
+
+	sapi_cgibin_ub_write,			/* unbuffered write */
+	sapi_cgibin_flush,				/* flush */
+	NULL,							/* get uid */
+	sapi_cgibin_getenv,				/* getenv */
+
+	php_error,						/* error handler */
+
+	NULL,							/* header handler */
+	sapi_cgi_send_headers,			/* send headers handler */
+	NULL,							/* send header handler */
+
+	sapi_cgi_read_post,				/* read POST data */
+	sapi_cgi_read_cookies,			/* read Cookies */
+
+	sapi_cgi_register_variables,	/* register server variables */
+	sapi_cgi_log_message,			/* Log message */
+	NULL,							/* Get request time */
+	NULL,							/* Child terminate */
+
+	STANDARD_SAPI_MODULE_PROPERTIES
+};
+```
+
+可以看出 cgi_sapi_module 的数据类型是 sapi_module_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。
+ 
