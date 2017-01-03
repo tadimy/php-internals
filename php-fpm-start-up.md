@@ -52,7 +52,7 @@ cgi_sapi_module.php_ini_ignore_cwd = 1;
 ...
 ```
 
-这一段主要是初始化 sapi 的代码，调用 sapi\__startup 函数，传入 &cgi\_sapi\_module。因为 fpm 实际上是一个 sapi 的 module, 而 sapi 的 module 是被定义好的一个数据结构，cgi\_sapi\_module 的初始化可以在 fpm\_main.c 中找到：_
+这一段主要是初始化 sapi 的代码，调用 sapi\_startup 函数，传入 &cgi\_sapi\_module。因为 fpm 实际上是一个 sapi 的 module, 而 sapi 的 module 是被定义好的一个数据结构，cgi\_sapi\_module 的初始化可以在 fpm\_main.c 中找到：
 
 ```c
 static sapi_module_struct cgi_sapi_module = {
@@ -88,5 +88,5 @@ static sapi_module_struct cgi_sapi_module = {
 };
 ```
 
-可以看出 cgi_sapi_module 的数据类型是 sapi_module_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。
+可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。而这个 sapi\_startup 函数更准确
  
