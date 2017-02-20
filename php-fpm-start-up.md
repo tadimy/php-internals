@@ -56,38 +56,39 @@ cgi_sapi_module.php_ini_ignore_cwd = 1;
 
 ```c
 static sapi_module_struct cgi_sapi_module = {
-	"fpm-fcgi",						/* name */
-	"FPM/FastCGI",					/* pretty name */
+    "fpm-fcgi",                        /* name */
+    "FPM/FastCGI",                    /* pretty name */
 
-	php_cgi_startup,				/* startup */
-	php_module_shutdown_wrapper,	/* shutdown */
+    php_cgi_startup,                /* startup */
+    php_module_shutdown_wrapper,    /* shutdown */
 
-	sapi_cgi_activate,				/* activate */
-	sapi_cgi_deactivate,			/* deactivate */
+    sapi_cgi_activate,                /* activate */
+    sapi_cgi_deactivate,            /* deactivate */
 
-	sapi_cgibin_ub_write,			/* unbuffered write */
-	sapi_cgibin_flush,				/* flush */
-	NULL,							/* get uid */
-	sapi_cgibin_getenv,				/* getenv */
+    sapi_cgibin_ub_write,            /* unbuffered write */
+    sapi_cgibin_flush,                /* flush */
+    NULL,                            /* get uid */
+    sapi_cgibin_getenv,                /* getenv */
 
-	php_error,						/* error handler */
+    php_error,                        /* error handler */
 
-	NULL,							/* header handler */
-	sapi_cgi_send_headers,			/* send headers handler */
-	NULL,							/* send header handler */
+    NULL,                            /* header handler */
+    sapi_cgi_send_headers,            /* send headers handler */
+    NULL,                            /* send header handler */
 
-	sapi_cgi_read_post,				/* read POST data */
-	sapi_cgi_read_cookies,			/* read Cookies */
+    sapi_cgi_read_post,                /* read POST data */
+    sapi_cgi_read_cookies,            /* read Cookies */
 
-	sapi_cgi_register_variables,	/* register server variables */
-	sapi_cgi_log_message,			/* Log message */
-	NULL,							/* Get request time */
-	NULL,							/* Child terminate */
+    sapi_cgi_register_variables,    /* register server variables */
+    sapi_cgi_log_message,            /* Log message */
+    NULL,                            /* Get request time */
+    NULL,                            /* Child terminate */
 
-	STANDARD_SAPI_MODULE_PROPERTIES
+    STANDARD_SAPI_MODULE_PROPERTIES
 };
 ```
 
+<<<<<<< HEAD
 可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。而这个 sapi\_startup 函数做的主要事情是分配互斥量(tsrm_mutex_alloc)。互斥量主要为针对多线程准备的，而 fastcgi 模式运行 PHP 都是单线程，所以不存在多线程中出现临界资源的使用问题。
 
 在此之后的很长一部分代码都是处理命令行模式运行时的输入参数，这一段先略过，直接跳到 cgi_sapi_module 的 startup 部分：
@@ -213,3 +214,7 @@ fpm 初始化的过程分 13 步，分别是:
 * fpm_event_init_main() **注册 event 清理方法**
 
 可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。
+=======
+可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的。
+
+>>>>>>> 585abe18d840b6a96bcaa57ba08b1fa035214272
