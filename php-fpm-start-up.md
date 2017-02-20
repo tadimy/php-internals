@@ -199,3 +199,17 @@ int fpm_init(int argc, char **argv, char *config, char *prefix, char *pid, int t
 不难看出，**fpm_init** 返回 -1 时，整个程序将会退出，当有错误发生但是 fpm_globals 中标记了 test_successful 时，会使用 exit(0) 退出，因为配置文件没有错误，而成功时会返回 0。
 
 fpm 初始化的过程分 13 步，分别是:
+* fpm_php_init_main() **注册进程清理方法**
+* fpm_stdio_init_main() **验证 /dev/null 是否可读写**
+* fpm_conf_init_main(test_conf, force_daemon) **校验配置文件**
+* fpm_unix_init_main() ****
+* fpm_scoreboard_init_main() **初始化记分牌**
+* fpm_pctl_init_main() **进程管理初始化**
+* fpm_env_init_main() **？**
+* fpm_signals_init_main() **设置信号处理方式**
+* fpm_children_init_main() **初始化子进程，注册进程清理方法**
+* fpm_sockets_init_main() **初始化 sockets**
+* fpm_worker_pool_init_main() **注册 worker pool 清理方法**
+* fpm_event_init_main() **注册 event 清理方法**
+
+可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。
