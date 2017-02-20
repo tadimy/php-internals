@@ -56,37 +56,37 @@ cgi_sapi_module.php_ini_ignore_cwd = 1;
 
 ```c
 static sapi_module_struct cgi_sapi_module = {
-	"fpm-fcgi",						/* name */
-	"FPM/FastCGI",					/* pretty name */
+    "fpm-fcgi",                        /* name */
+    "FPM/FastCGI",                    /* pretty name */
 
-	php_cgi_startup,				/* startup */
-	php_module_shutdown_wrapper,	/* shutdown */
+    php_cgi_startup,                /* startup */
+    php_module_shutdown_wrapper,    /* shutdown */
 
-	sapi_cgi_activate,				/* activate */
-	sapi_cgi_deactivate,			/* deactivate */
+    sapi_cgi_activate,                /* activate */
+    sapi_cgi_deactivate,            /* deactivate */
 
-	sapi_cgibin_ub_write,			/* unbuffered write */
-	sapi_cgibin_flush,				/* flush */
-	NULL,							/* get uid */
-	sapi_cgibin_getenv,				/* getenv */
+    sapi_cgibin_ub_write,            /* unbuffered write */
+    sapi_cgibin_flush,                /* flush */
+    NULL,                            /* get uid */
+    sapi_cgibin_getenv,                /* getenv */
 
-	php_error,						/* error handler */
+    php_error,                        /* error handler */
 
-	NULL,							/* header handler */
-	sapi_cgi_send_headers,			/* send headers handler */
-	NULL,							/* send header handler */
+    NULL,                            /* header handler */
+    sapi_cgi_send_headers,            /* send headers handler */
+    NULL,                            /* send header handler */
 
-	sapi_cgi_read_post,				/* read POST data */
-	sapi_cgi_read_cookies,			/* read Cookies */
+    sapi_cgi_read_post,                /* read POST data */
+    sapi_cgi_read_cookies,            /* read Cookies */
 
-	sapi_cgi_register_variables,	/* register server variables */
-	sapi_cgi_log_message,			/* Log message */
-	NULL,							/* Get request time */
-	NULL,							/* Child terminate */
+    sapi_cgi_register_variables,    /* register server variables */
+    sapi_cgi_log_message,            /* Log message */
+    NULL,                            /* Get request time */
+    NULL,                            /* Child terminate */
 
-	STANDARD_SAPI_MODULE_PROPERTIES
+    STANDARD_SAPI_MODULE_PROPERTIES
 };
 ```
 
-可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。而这个 sapi\_startup 函数更准确
- 
+可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的。
+
