@@ -87,8 +87,6 @@ static sapi_module_struct cgi_sapi_module = {
     STANDARD_SAPI_MODULE_PROPERTIES
 };
 ```
-
-<<<<<<< HEAD
 可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的，是类似于 OOP 中 class 的东西。而这个 sapi\_startup 函数做的主要事情是分配互斥量(tsrm_mutex_alloc)。互斥量主要为针对多线程准备的，而 fastcgi 模式运行 PHP 都是单线程，所以不存在多线程中出现临界资源的使用问题。
 
 在此之后的很长一部分代码都是处理命令行模式运行时的输入参数，这一段先略过，直接跳到 cgi_sapi_module 的 startup 部分：
@@ -202,10 +200,10 @@ int fpm_init(int argc, char **argv, char *config, char *prefix, char *pid, int t
 fpm 初始化的过程分 13 步，分别是:
 * fpm_php_init_main() **注册进程清理方法**
 * fpm_stdio_init_main() **验证 /dev/null 是否可读写**
-* fpm_conf_init_main(test_conf, force_daemon) **校验配置文件**
-* fpm_unix_init_main() ****
-* fpm_scoreboard_init_main() **初始化记分牌**
-* fpm_pctl_init_main() **进程管理初始化**
+* fpm_conf_init_main(test_conf, force_daemon) **校验并加载配置文件**
+* fpm_unix_init_main() **检查 unix 运行环境**
+* fpm_scoreboard_init_main() **初始化“进程记分牌”**
+* fpm_pctl_init_main() **进程管理相关初始化**
 * fpm_env_init_main() **？**
 * fpm_signals_init_main() **设置信号处理方式**
 * fpm_children_init_main() **初始化子进程，注册进程清理方法**
@@ -213,8 +211,10 @@ fpm 初始化的过程分 13 步，分别是:
 * fpm_worker_pool_init_main() **注册 worker pool 清理方法**
 * fpm_event_init_main() **注册 event 清理方法**
 
-可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。
-=======
-可以看出 cgi\_sapi\_module 的数据类型是 sapi\_module\_struct，这个数据类型是 PHP 的 SAPI 中定义的。
-
->>>>>>> 585abe18d840b6a96bcaa57ba08b1fa035214272
+可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。在完成这一系列的操作之后，fpm 会向配置文件中指定的 pid 文件写入进程id。
+```c
+if (0 > fpm_conf_write_pid()) {
+  zlog(ZLOG_ERROR, "FPM initialization failed");
+  return -1;
+}
+```
