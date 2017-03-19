@@ -219,7 +219,7 @@ fpm 初始化的过程分 13 步，分别是:
 * fpm\_worker\_pool\_init\_main\(\) **注册 worker pool 清理方法**
 * fpm\_event\_init\_main\(\) **注册 event 清理方法**
 
-可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。在完成这一系列的操作之后，fpm 会向配置文件中指定的 pid 文件写入进程id。
+可以说相当复杂的一个过程，只要有一个函数无法返回 0，程序将直接退出。在完成这一系列的操作之后，fpm 会向配置文件中指定的 pid 文件写入 master 进程id。整个过程其实是为了启动 php-fpm 进程做初始化的工作，到这一步 php-fpm 还是无法接收请求的。
 
 ```c
 if (0 > fpm_conf_write_pid()) {
@@ -227,6 +227,3 @@ if (0 > fpm_conf_write_pid()) {
   return -1;
 }
 ```
-
-
-
